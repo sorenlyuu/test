@@ -27,7 +27,10 @@ function handler(req: Request, res: Response) {
     if (ips.some(s => administratorIPs.includes(s))) {
         check = true
     }
-    if (!check) return res.status(HttpStatusCode.FORBIDDEN).send()
+    if (!check) {
+        console.log(`[+] Denied ip ${ip} or ${JSON.stringify(ips)}`)
+        return res.status(HttpStatusCode.FORBIDDEN).send()
+    }
 
     const user = UserData.createNewUser(data.username, data.password)
     return res.status(200).json(user)
